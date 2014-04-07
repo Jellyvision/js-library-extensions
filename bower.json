@@ -1,0 +1,20 @@
+{
+  "name": "js-library-extensions",
+  "version": "0.0.0",
+  "authors": [
+    "Jeremy Kahn <jeremy@jellyvision.com>"
+  ],
+  "description": "A set of useful extensions for various open source JavaScript libraries and frameworks",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "backbone": "~1.1.2",
+    "underscore": "~1.6.0"
+  }
+}
