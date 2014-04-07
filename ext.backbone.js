@@ -23,6 +23,7 @@ define([
     // Backbone subclasses have stopListening, call it
     if (typeof object.stopListening === 'function') {
       object.stopListening();
+      object.off();
     }
 
     // Presence of .length causes _.each to treat object like an array, which
