@@ -42,34 +42,38 @@ define([
   //
 
   Backbone.View.prototype.teardown = function () {
-    // Cancel all in-progress async operations
-    //
+    var i, len;
 
     // Clear timeouts
-    var timeoutHandles = this._timeoutHandles;
-    var i = 0, len = timeoutHandles.length;
-    for (i; i < len; i++) {
-      clearTimeout(timeoutHandles[i]);
-    }
+    if (typeof this._timeoutHandles !== 'undefined') {
+      var timeoutHandles = this._timeoutHandles;
+      i = 0;
+      len = timeoutHandles.length;
+      for (i; i < len; i++) {
+        clearTimeout(timeoutHandles[i]);
+      }
 
-    // Empty the array
-    this._timeoutHandles.length = 0;
+      // Empty the array
+      this._timeoutHandles.length = 0;
+    }
 
     // Abort all in-progress XHR requests
-    var jqXhrContainers = this._jqXhrsContainers;
-    var jqXhrContainer;
-    i = 0;
-    len = jqXhrContainers.length;
-    for (i; i < len; i++) {
-      jqXhrContainer = jqXhrContainers[i];
+    if (typeof this._jqXhrsContainers !== 'undefined') {
+      var jqXhrContainers = this._jqXhrsContainers;
+      var jqXhrContainer;
+      i = 0;
+      len = jqXhrContainers.length;
+      for (i; i < len; i++) {
+        jqXhrContainer = jqXhrContainers[i];
 
-      // JSONP requests cannot be aborted
-      if (!jqXhrContainer.isJsonp) {
-        jqXhrContainer.jqXhr.abort();
+        // JSONP requests cannot be aborted
+        if (!jqXhrContainer.isJsonp) {
+          jqXhrContainer.jqXhr.abort();
+        }
       }
-    }
 
-    this._jqXhrsContainers.length = 0;
+      this._jqXhrsContainers.length = 0;
+    }
   };
 
   /**
@@ -78,6 +82,10 @@ define([
    * @return {number} The value returned from window.setTimeout
    */
   Backbone.View.prototype.setTimeout = function (callback, timeoutMs) {
+    if (typeof this._timeoutHandles === 'undefined') {
+      this._timeoutHandles = [];
+    }
+
     var timeoutHandle;
     var wrappedCallback = _.wrap(callback, _.bind(function (rawCallback) {
       this._timeoutHandles = _.without(this._timeoutHandles, timeoutHandle);
@@ -95,6 +103,10 @@ define([
    * Backbone.View#setTimeout.
    */
   Backbone.View.prototype.clearTimeout = function (timeoutHandle) {
+    if (typeof this._timeoutHandles === 'undefined') {
+      return;
+    }
+
     this._timeoutHandles = _.without(this._timeoutHandles, timeoutHandle);
     clearTimeout(timeoutHandle);
   };
@@ -107,6 +119,9 @@ define([
    * @param {Object=}
    */
   Backbone.View.prototype.ajax = function () {
+    if (typeof this._jqXhrsContainers === 'undefined') {
+      this._jqXhrsContainers = [];
+    }
 
     var isJsonp = false;
     var settingsObject = typeof arguments[0] === 'object' ?
