@@ -1,14 +1,17 @@
+/* jshint camelcase: false */
 define([
 
   'jquery'
   ,'underscore'
   ,'backbone'
+  ,'howler'
 
 ], function (
 
   $
   ,_
   ,Backbone
+  ,howler
 
 ) {
   'use strict';
@@ -172,5 +175,41 @@ define([
     // chaining.  This is deliberate, it is a design choice to prevent
     // callbacks from executing for unloaded Views.
     return;
+  };
+
+  /**
+   * @param {string} audioFile The audio file name, minus any extensions.
+   * @param {Object=} opt_options Any options to be passed to the Howler
+   * constructor.
+   */
+  Backbone.View.prototype.playSound = function (audioFile, opt_options) {
+    var audioFiles = _.map(['mp3', 'ogg'], function (suffix) {
+      return audioFile + '.' + suffix;
+    });
+
+    var sound = new howler.Howl(_.extend({ urls: audioFiles }, opt_options));
+    sound.play();
+  };
+
+  /**
+   * Get or set the asset root for this View.
+   * @param {string=} opt_path
+   * @return {string}
+   */
+  Backbone.View.prototype.assetRoot = function (opt_path) {
+    if (opt_path) {
+      this._assetRoot = opt_path;
+    }
+
+    return this._assetRoot;
+  };
+
+  /**
+   * Get a resolved URL for an asset of this View.
+   * @param {string} asset
+   * @return {string}
+   */
+  Backbone.View.prototype.assetPath = function (asset) {
+    return (this._assetRoot || '') + asset;
   };
 });
