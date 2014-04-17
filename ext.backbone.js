@@ -1,4 +1,5 @@
 /* jshint camelcase: false */
+/* global Modernizr: true */
 define([
 
   'jquery'
@@ -15,6 +16,13 @@ define([
 
 ) {
   'use strict';
+
+  /**
+   * @return {boolean}
+   */
+  function isAudioSupported () {
+    return (Modernizr.audio.ogg || Modernizr.audio.mp3);
+  }
 
   /**
    * General-purpose disposal method.  Useful for cleaning up an object that is
@@ -181,9 +189,13 @@ define([
    * @param {string} audioFile The audio file name, minus any extensions.
    * @param {Object=} opt_options Any options to be passed to the Howler
    * constructor.
-   * @return {Howl}
+   * @return {?Howl}
    */
   Backbone.View.prototype.loadSound = function (audioFile, opt_options) {
+    if (!isAudioSupported()) {
+      return null;
+    }
+
     var audioFiles = _.map(['mp3', 'ogg'], function (suffix) {
       return audioFile + '.' + suffix;
     });
@@ -198,7 +210,8 @@ define([
    * @return {Howl}
    */
   Backbone.View.prototype.playSound = function () {
-    return this.loadSound.apply(this, arguments).play();
+    return isAudioSupported() ?
+        this.loadSound.apply(this, arguments).play() : null;
   };
 
   /**

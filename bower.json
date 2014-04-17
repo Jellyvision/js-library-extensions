@@ -1,6 +1,6 @@
 {
   "name": "js-library-extensions",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "authors": [
     "Jeremy Kahn <jeremy@jellyvision.com>"
   ],
@@ -16,6 +16,7 @@
   "dependencies": {
     "backbone": "~1.0.0",
     "underscore": "~1.5.2",
-    "howler": "~1.1.19"
+    "howler": "~1.1.19",
+    "modernizr": "~2.7.2"
   }
 }
