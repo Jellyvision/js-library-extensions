@@ -24,6 +24,8 @@ define([
     return (Modernizr.audio.ogg || Modernizr.audio.mp3);
   }
 
+  Backbone.supportedAudioSuffixes = ['mp3', 'ogg'];
+
   /**
    * General-purpose disposal method.  Useful for cleaning up an object that is
    * no longer needed.  This method is geared towards cleaning up Backbone
@@ -196,7 +198,8 @@ define([
       return null;
     }
 
-    var audioFiles = _.map(['mp3', 'ogg'], function (suffix) {
+    var audioFiles = _.map(Backbone.supportedAudioSuffixes,
+        function (suffix) {
       return audioFile + '.' + suffix;
     });
 
