@@ -38,7 +38,9 @@ define([
      * return {boolean}
      */
     ,currency: function (currencyString) {
-      return (/^\d*(\.\d{1,2})?$/g).test(_.trim(currencyString));
+      var trimmedString = _.trim(currencyString);
+      return trimmedString.length > 0 &&
+             (/^\d*(\.\d{1,2})?$/g).test(trimmedString);
     }
   };
 
