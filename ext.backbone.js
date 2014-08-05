@@ -213,8 +213,16 @@ define([
    * @return {Howl}
    */
   Backbone.View.prototype.playSound = function () {
-    return isAudioSupported() ?
-        this.loadSound.apply(this, arguments).play() : null;
+    var howl;
+
+    try {
+      howl= isAudioSupported() ?
+          this.loadSound.apply(this, arguments).play() : null;
+    } catch (ex) {
+      howl = null;
+    }
+
+    return howl;
   };
 
   /**
