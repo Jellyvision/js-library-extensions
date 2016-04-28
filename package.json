@@ -1,0 +1,25 @@
+{
+  "name": "js-library-extensions",
+  "version": "0.0.9",
+  "description": "A set of useful extensions for various open source JavaScript libraries and frameworks",
+  "main": "ext.backbone.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jellyvision/js-library-extensions.git"
+  },
+  "author": "Jeremy Kahn <jeremy@jellyvision.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Jellyvision/js-library-extensions/issues"
+  },
+  "homepage": "https://github.com/Jellyvision/js-library-extensions#readme",
+  "dependencies": {
+    "backbone": "^1.3.3",
+    "howler": "^1.1.29",
+    "modernizr": "^3.3.1",
+    "underscore": "^1.8.3"
+  }
+}
