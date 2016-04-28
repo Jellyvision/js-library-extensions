@@ -1,6 +1,6 @@
 {
   "name": "js-library-extensions",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "A set of useful extensions for various open source JavaScript libraries and frameworks",
   "main": "ext.backbone.js",
   "scripts": {
