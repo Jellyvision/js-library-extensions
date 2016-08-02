@@ -5,14 +5,12 @@ define([
   'jquery'
   ,'underscore'
   ,'backbone'
-  ,'howler'
 
 ], function (
 
   $
   ,_
   ,Backbone
-  ,howler
 
 ) {
   'use strict';
@@ -185,87 +183,6 @@ define([
     // chaining.  This is deliberate, it is a design choice to prevent
     // callbacks from executing for unloaded Views.
     return;
-  };
-
-  /**
-   * @param {string} audioFile The audio file name, minus any extensions.
-   * @param {Object=} opt_options Any options to be passed to the Howler
-   * constructor.
-   * @return {?Howl}
-   */
-  Backbone.View.prototype.loadSound = function (audioFile, opt_options) {
-    if (!isAudioSupported()) {
-      return null;
-    }
-
-    var audioFiles = _.map(Backbone.supportedAudioSuffixes,
-        function (suffix) {
-      return audioFile + '.' + suffix;
-    });
-
-    return new howler.Howl(_.extend({ urls: audioFiles }, opt_options));
-  };
-
-  /**
-   * A convenience method to play a sound.
-   *
-   * Parameters are the same as Backbone.View#loadSound.
-   * @return {Howl}
-   */
-  Backbone.View.prototype.playSound = function () {
-    var howl;
-
-    try {
-      howl= isAudioSupported() ?
-          this.loadSound.apply(this, arguments).play() : null;
-    } catch (ex) {
-      howl = null;
-    }
-
-    return howl;
-  };
-
-  /**
-   * @param {string} rangeString Should contain two integers seperated
-   * by a non-number.  Example: "[0-1000]"
-   * @param {{ start: number, duration: number }=} Returns undefined if the
-   * input could not be parsed.
-   */
-  Backbone.View.prototype.parseSpriteRangeString = function (rangeString) {
-    var matches = rangeString.match(/\d+/g);
-
-    if (matches && matches.length === 2) {
-      return {
-        start: +matches[0]
-        ,duration: +matches[1]
-      };
-    } else {
-      throw '"' + rangeString + '" could not be parsed as a range string.';
-    }
-  };
-
-  /**
-   * @param {Howl} sound The loaded Howl sound.
-   * @param {number} start In milliseconds.
-   * @param {number} length In milliseconds.
-   * @param {boolean=} loop
-   */
-  Backbone.View.prototype.playSoundSpriteRange =
-      function (sound, start, length, loop) {
-    sound
-      .sprite({ sprite: [start, length, loop] })
-      .play('sprite');
-  };
-
-  /**
-   * @param {Howl} sound The loaded Howl sound.
-   * @param {string} rangeString Should contain two integers seperated
-   * by a non-number.  Example: "[0-1000]"
-   */
-  Backbone.View.prototype.playSoundSpriteRangeString =
-      function (sound, rangeString) {
-    var parsedRange = this.parseSpriteRangeString(rangeString);
-    this.playSoundSpriteRange(sound, parsedRange.start, parsedRange.duration);
   };
 
   /**
